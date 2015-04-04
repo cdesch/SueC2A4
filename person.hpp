@@ -6,6 +6,7 @@
 #define SUEC2A4_PERSON_HPP
 
 #include "date.hpp"
+#include "state.h"
 
 //**************************
 //  Class Person
@@ -17,13 +18,13 @@ private:
     string firstName;
     string ssn;
     Date* birthday;
-    //State* state;
+    State* state;
 
 public:
     //Constructor
     Person(); //Default Constructor
-    Person(string ssn, string firstName, string lastName, Date* birthday);
-    Person(string ssn, string firstName, string lastName, string birthday);
+    Person(string ssn, string firstName, string lastName, Date* birthday, State* state);
+    Person(string ssn, string firstName, string lastName, string birthday, State* state);
     ~Person(); //Deconstructor
 
     //Member Functions//
@@ -39,6 +40,7 @@ public:
     string getLastName() const;
     Date* getBirthday() const;
     string getFullName(string fullname);
+    State* getState();
 
     //SETTERS//
     void setSsn(string ssn);
@@ -47,6 +49,7 @@ public:
     void setBirthday(Date *birthday);      //Overloaded!!
     void setBirthday(string birthday);    //Overloaded!!
     void setFullName(string fullname);
+    void setState(State* state);
 
 
     bool operator==(const Person& object){
@@ -79,18 +82,20 @@ Person::Person(){
 }
 
 //Constructor with params
-Person::Person(string ssn, string firstName, string lastName, Date* birthday){
+Person::Person(string ssn, string firstName, string lastName, Date* birthday, State* state){
     this->ssn = ssn;
     this->firstName = firstName;
     this->lastName = lastName;
     this->birthday = birthday;
+    this->state = state;
 }
 
-Person::Person(string ssn, string firstName, string lastName, string birthday){
+Person::Person(string ssn, string firstName, string lastName, string birthday, State* state){
     this->ssn = ssn;
     this->firstName = firstName;
     this->lastName = lastName;
     this->birthday = new Date(birthday);
+    this->state =  state;
 }
 
 //Deconstructor
@@ -107,8 +112,9 @@ void Person::printInfo(){
     printf("SSN: %s \n", ssn.c_str());
     printf("First Name: %s \n", firstName.c_str());
     printf("Last Name: %s \n", lastName.c_str());
-    printf("Birthdate (YYYYMMDD): ");
-    birthday->printInfo();  //Birthdate (YYYYMMDD): 20140914
+    printf("Birthdate (DDMMYYYY): ");
+    birthday->printInfo();
+    printf("State: %s\n", this->getState()->getState().c_str());
 }
 
 long Person::age(){
@@ -132,6 +138,10 @@ Date* Person::getBirthday() const{
     return this->birthday;
 }
 
+State* Person::getState() {
+    return this->state;
+}
+
 //Setters//
 void Person::setSsn(string ssn){
     this->ssn = ssn;
@@ -149,6 +159,10 @@ void Person::setBirthday(Date* birthdate){
 }
 void Person::setBirthday(string b){
     this->birthday = new Date(b);
+}
+
+void Person::setState(State* state){
+    this->state = state;
 }
 
 #endif //SUEC2A4_PERSON_HPP

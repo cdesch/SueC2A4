@@ -43,13 +43,11 @@ public:
         //TODO: Implement
     };
 
-
     Element* addNode(Element* data){
         ListNode<Element>* newNode = new ListNode<Element>(data);
         ListNode<Element>* returnedNode = this->addNode(newNode);
         return returnedNode->getData();
     }
-
 
     ListNode<Element>* getUnknownTail(ListNode<Element>* node){
         int i = 0;

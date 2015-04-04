@@ -13,6 +13,12 @@
 
 using namespace std;
 
+//string daysOfWeek[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+string months[] = {"January", "February", "March", "April","May","June","July", "August", "September", "October", "November","December"};
+
+
+
+
 //This function converts a string to an integer
 //It returns a variable of type int
 int converStringToInt(string myString){
@@ -64,6 +70,7 @@ public:
 
     //Member functions//
     void printInfo();
+    void prettyPrint();
 
     //GETTERS//
     int getYear();
@@ -95,10 +102,16 @@ Date::Date(string d){
     //Change from string to a long
     long dateValue = convertStringToLong(d);
 
+    /*
     //break the dateValue into Year Month Day
     this->year = int(dateValue/10000);
     this->month = (dateValue/100) % 100;
     this->day = dateValue % 100;
+     */
+
+    this->day = int(dateValue/1000000);
+    this->month = (dateValue/10000) % 100;
+    this->year = dateValue % 10000;
 }
 
 //Deconstructor
@@ -108,12 +121,30 @@ Date::~Date(){
 //Member Functions//
 //YYYYMMDD Format
 void Date::printInfo(){
+
+    int zero = 0;
+    if(day < 10) printf("%d", zero);
+    printf("%d", day);
+    if(month < 10) printf("%d", zero);
+    printf("%d", month);
+    printf("%d\n", year);
+
+    /*
     int zero = 0;
     printf("%d", year);
     if(month < 10) printf("%d", zero);
     printf("%d", month);
     if(day < 10) printf("%d", zero);
     printf("%d\n", day);
+     */
+}
+
+void Date::prettyPrint(){
+
+
+    printf("%d of %s %d\n", this->day, months[this->month].c_str(), this->year );
+
+
 }
 
 //GETTERS//
