@@ -5,8 +5,6 @@
 #include "list.hpp"
 #include "listNode.hpp"
 #include <cassert>
-#include <fstream>
-#include <sstream>
 #include "database.hpp"
 
 using namespace std;
@@ -98,12 +96,21 @@ void testDatabase(){
     }*/
 
     //cout << "People: " << database->getPeople()->getSize() << endl;
-    assert(database->getStates()->getSize() <= 51);
-    assert(database->getPeople()->getSize() <= 1000);
+    assert(database->getStates()->getSize() <= 51); // States should always be under 51 (including DC)
+    assert(database->getPeople()->getSize() <= database->numberOfRecordsCounted);
+
+    State *headState = database->getStates()->getHead()->getData();
+    List<Person>* peopleInState = headState->getPeople();
+    cout << "State: " << headState->getState() << endl;
+    ListNode<Person>* currentPerson = peopleInState->getHead();
+    while(currentPerson){
+        cout << "    - " << currentPerson->getData()->getLastName() << " "  << currentPerson->getData()->getState()->getState() << endl;
+        assert(headState == currentPerson->getData()->getState());
+        currentPerson = currentPerson->getNext();
+
+    }
 
 }
-
-
 
 
 
@@ -115,5 +122,6 @@ int main() {
     testStateClass();
     testLinkedList();
     testDatabase();
+
     return 0;
 }

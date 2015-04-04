@@ -23,6 +23,8 @@ protected:
 
 
 public:
+
+    int numberOfRecordsCounted = 0;
     Database(){
         this->people =  new List<Person>();
         this->states = new List<State>();
@@ -31,6 +33,7 @@ public:
 
 
     void readfile(string filename){
+        this->numberOfRecordsCounted = 1;
 
         ifstream infile(filename); //Open the file
         string str; // Declares a string and is used for temporary storage
@@ -75,11 +78,12 @@ public:
                 state = this->states->addNode(state); //add it to the list BUT if there is already a state of the same name in it, return that state instead
 
                 Person* person = new Person(ssnString, firstName, lastName, birthdate, state);
+                state->addPerson(person);
                 this->people->addNode(person);
 
-                person->printInfo();
+                //person->printInfo();
 
-
+                this->numberOfRecordsCounted ++;
 
             }
             infile.close();
@@ -87,7 +91,6 @@ public:
         else{
             cout << "Unable to open file" << endl << endl;
         }
-
     }
 
     List<Person>* getPeople(){
@@ -97,9 +100,6 @@ public:
     List<State>* getStates(){
         return this->states;
     }
-
-
-
 
 };
 
