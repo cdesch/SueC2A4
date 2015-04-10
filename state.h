@@ -33,6 +33,11 @@ public:
     }
 
     ~State(){
+
+        this->people->deleteWithoutData();
+        delete this->people;
+        this->people = NULL;
+
     };
 
     //Setters & Getters

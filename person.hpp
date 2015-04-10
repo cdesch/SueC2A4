@@ -25,11 +25,14 @@ public:
     Person(); //Default Constructor
     Person(string ssn, string firstName, string lastName, Date* birthday, State* state);
     Person(string ssn, string firstName, string lastName, string birthday, State* state);
+    Person(string ssn);
+    Person(string firstName, string lastName);
     ~Person(); //Deconstructor
 
     //Member Functions//
     void printName();
     void printInfo(); //Print Name (first and last), SSN, Birthdate
+    void printInfoInline();
     long age();     //Calculate the age of the person based on the birthdate
 
     //Setters and Getters
@@ -53,11 +56,7 @@ public:
 
 
     bool operator==(const Person& object){
-        if(this->getLastName() == object.getLastName() &&
-                this->getFirstName() == object.getFirstName() &&
-                this->getSsn() == object.getSsn() &&
-                this->getBirthday() == object.getBirthday()
-                ){
+        if((this->getLastName() == object.getLastName() && this->getFirstName() == object.getFirstName()) || this->getSsn() == object.getSsn()){
             return true;
         }else{
             return false;
@@ -65,11 +64,7 @@ public:
     }
 
     bool operator!=(const Person& object){
-        if(this->getLastName() == object.getLastName() &&
-           this->getFirstName() == object.getFirstName() &&
-           this->getSsn() == object.getSsn() &&
-           this->getBirthday() == object.getBirthday()
-                ){
+        if((this->getLastName() == object.getLastName() && this->getFirstName() == object.getFirstName()) || this->getSsn() == object.getSsn()) {
             return false;
         }else{
             return true;
@@ -78,6 +73,10 @@ public:
 };
 //Default Constructor
 Person::Person(){
+    delete this->birthday;
+    this->birthday == NULL;
+    //delete this->state; //Dont need to delete. The Database Object will take care of that
+    this->state == NULL;
 
 }
 
@@ -98,6 +97,22 @@ Person::Person(string ssn, string firstName, string lastName, string birthday, S
     this->state =  state;
 }
 
+Person::Person(string ssn){
+    this->ssn = ssn;
+    this->firstName = "John121";
+    this->lastName = "Deere121";
+    this->birthday = new Date("02021965");
+    this->state =  new State("RANDOM");
+}
+
+Person::Person( string firstName, string lastName){
+    this->ssn = "000000000";
+    this->firstName = firstName;
+    this->lastName = lastName;
+    this->birthday = new Date("02021965");
+    this->state =  new State("RANDOM");
+}
+
 //Deconstructor
 Person::~Person(){
 }
@@ -115,6 +130,16 @@ void Person::printInfo(){
     printf("Birthdate (DDMMYYYY): ");
     birthday->printInfo();
     printf("State: %s\n", this->getState()->getState().c_str());
+}
+
+
+void Person::printInfoInline(){
+    printf("SSN: %s ", ssn.c_str());
+    printf(" First Name: %s ", firstName.c_str());
+    printf(" Last Name: %s ", lastName.c_str());
+    printf(" Birthdate (DDMMYYYY): ");
+    birthday->printInfoInline();
+    printf(" State: %s\n", this->getState()->getState().c_str());
 }
 
 long Person::age(){
@@ -160,7 +185,6 @@ void Person::setBirthday(Date* birthdate){
 void Person::setBirthday(string b){
     this->birthday = new Date(b);
 }
-
 void Person::setState(State* state){
     this->state = state;
 }

@@ -40,8 +40,26 @@ public:
         this->size = size;
     }
     ~List(){
-        //TODO: Implement
-    };
+    }
+
+
+    void deleteWithData(){
+        delete this->head;
+        this->head == NULL;
+        this->tail == NULL;
+        this->size = 0;
+
+    }
+
+    void deleteWithoutData(){
+
+        this->head->deleteWithoutData();
+        delete this->head;
+        this->head == NULL;
+        this->tail == NULL;
+        this->size = 0;
+
+    }
 
     Element* addNode(Element* data){
         ListNode<Element>* newNode = new ListNode<Element>(data);
@@ -152,6 +170,23 @@ public:
         //If the node is not found, return NULL.
         return NULL;
     }
+
+
+    ListNode<Element>* find(ListNode<Element>* node){
+
+        return this->isNodeInList(node);
+    }
+
+    void findAndDeleteNode(){
+        //TODO: implement
+    }
+
+
+    void deleteNode(){
+        //TODO: implement
+    }
+
+
 
 };
 

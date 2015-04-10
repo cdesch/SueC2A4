@@ -71,16 +71,59 @@ public:
     //Member functions//
     void printInfo();
     void prettyPrint();
+    void printInfoInline();
 
     //GETTERS//
-    int getYear();
-    int getMonth();
-    int getDay();
+    int getYear() const;
+    int getMonth() const;
+    int getDay() const;
 
     //SETTERS//
     void setYear(int y);
     void setMonth(int m);
     void setDay(int d);
+
+
+    bool operator>(const Date& object){
+        if(this->getYear() > object.getYear()){
+            return true;
+        }else if(this->getYear() == object.getYear()){
+
+            if(this->getMonth() > object.getMonth()){
+                return true;
+            }else if (this->getMonth() == object.getMonth()){
+                if(this->getDay() > object.getDay()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    bool operator<(const Date& object){
+        if(this->getYear() < object.getYear()){
+            return true;
+        }else if(this->getYear() == object.getYear()){
+            if(this->getMonth() < object.getMonth()){
+                return true;
+            }else if (this->getMonth() == object.getMonth()){
+                if(this->getDay() < object.getDay()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 };
 
 //Default Constructor
@@ -139,6 +182,26 @@ void Date::printInfo(){
      */
 }
 
+
+void Date::printInfoInline(){
+
+    int zero = 0;
+    if(day < 10) printf("%d", zero);
+    printf("%d", day);
+    if(month < 10) printf("%d", zero);
+    printf("%d", month);
+    printf("%d", year);
+
+    /*
+    int zero = 0;
+    printf("%d", year);
+    if(month < 10) printf("%d", zero);
+    printf("%d", month);
+    if(day < 10) printf("%d", zero);
+    printf("%d\n", day);
+     */
+}
+
 void Date::prettyPrint(){
 
 
@@ -148,13 +211,13 @@ void Date::prettyPrint(){
 }
 
 //GETTERS//
-int Date::getYear(){
+int Date::getYear() const{
     return this->year;
 }
-int Date::getMonth(){
+int Date::getMonth() const{
     return this->month;
 }
-int Date::getDay(){
+int Date::getDay() const{
     return this->day;
 }
 

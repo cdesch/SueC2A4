@@ -30,6 +30,31 @@ public:
         this->next = next;
     }
 
+    ~ListNode(){
+
+    }
+
+
+    void deleteWithData(){
+        delete this->data;
+        this->data == NULL;
+
+        delete this->next;
+        this->next == NULL;
+
+
+    }
+
+    void deleteWithoutData(){
+
+        this->data == NULL;
+        this->next->deleteWithoutData();
+        delete this->next;
+        this->next == NULL;
+
+    }
+
+
     void setNext(ListNode<Element>* next){
         this->next = next;
     }
@@ -44,6 +69,10 @@ public:
     Element* getData(){
         return this->data;
     }
+
+
+
+
 
 };
 
