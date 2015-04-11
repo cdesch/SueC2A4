@@ -8,12 +8,12 @@
 #include <string>
 #include <iostream>
 #include "list.hpp"
-
 #include "person.hpp"
 using namespace std;
 
-class Person; //Forward Declartion of Person class
+//start
 
+class Person; //Forward Declartion of Person class
 class State{
 
 protected:
@@ -24,7 +24,6 @@ public:
     State(){
         this->stateAbbreviation = "";
         this->people = new List<Person>();
-
     }
 
     State(string abbreviation){
@@ -33,11 +32,9 @@ public:
     }
 
     ~State(){
-
         this->people->deleteWithoutData();
         delete this->people;
         this->people = NULL;
-
     };
 
     //Setters & Getters
@@ -61,7 +58,6 @@ public:
         cout << this->stateAbbreviation << endl;
     }
 
-
     bool operator==(const State& object){
         if(this->getState() == object.getState()){
             return true;
@@ -78,11 +74,6 @@ public:
         }
     }
 
-
-
 };
-
-
-
 
 #endif //SUEC2A4_STATE_HPP

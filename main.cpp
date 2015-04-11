@@ -10,12 +10,26 @@
 #include <sstream>
 #include <vector>
 
+/*Order
+ * Date
+ * State
+ * Person
+ * listNode
+ * treeNode
+ * list
+ * tree
+ * database
+ * testcases
+ * interpreter
+ * main
+ */
+
+
 using namespace std;
 
 enum COMMAND { EXIT_PROGRAM, READ, STATES, LIST, OLDEST, YOUNGEST, FIND, MOVE, MERGE, ERROR};
 
 void testDateClass(){
-
     Date* date = new Date(2015,4,2);
     assert(date->getYear() == 2015);
     assert(date->getMonth() == 4);
@@ -31,7 +45,6 @@ void testPersonClass(){
     assert(person->getFirstName() == "MyFirstName" );
     assert(person->getLastName() == "MyLastName" );
 
-
 }
 
 void testStateClass(){
@@ -43,7 +56,6 @@ void testStateClass(){
     assert( *newyork == *newyork1);
     assert( *newyork != *newjersey);
 
-
 }
 
 void testLinkedList(){
@@ -54,7 +66,6 @@ void testLinkedList(){
 
     List<Person>* personList = new List<Person>();
     personList->addNode(person);
-
 
     ListNode<Person> *myPersonNode = personList->getHead();
     Person* myPerson = myPersonNode->getData();
@@ -113,7 +124,6 @@ void testDatabase(string databaseLocation){
         currentPerson = currentPerson->getNext();
 
     }
-
 }
 
 void testDateComparisonOperators(){

@@ -201,7 +201,6 @@ public:
     }
 
 
-
     Element* findData(Element* data){
         ListNode<Element>* currentNode = this->getHead();
         while(currentNode){ // While will keep iterating over the list until it is null

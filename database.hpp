@@ -21,7 +21,6 @@ protected:
     List<Person>* people;
     List<State>* states;
 
-
 public:
 
     int numberOfRecordsCounted = 0;

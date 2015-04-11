@@ -42,7 +42,6 @@ public:
     string getFirstName() const;
     string getLastName() const;
     Date* getBirthday() const;
-    string getFullName(string fullname);
     State* getState();
 
     //SETTERS//
@@ -51,7 +50,6 @@ public:
     void setLastName(string lastName);
     void setBirthday(Date *birthday);      //Overloaded!!
     void setBirthday(string birthday);    //Overloaded!!
-    void setFullName(string fullname);
     void setState(State* state);
 
 
@@ -77,7 +75,6 @@ Person::Person(){
     this->birthday = NULL;
     //delete this->state; //Dont need to delete. The Database Object will take care of that
     this->state = NULL;
-
 }
 
 //Constructor with params
