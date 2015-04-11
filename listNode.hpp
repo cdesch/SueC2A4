@@ -35,23 +35,37 @@ public:
     }
 
 
+    //Deletes node and data
     void deleteWithData(){
-        delete this->data;
-        this->data == NULL;
 
-        delete this->next;
-        this->next == NULL;
-
+        if(this->data){
+            delete this->data;
+            this->data = NULL;
+        }
 
     }
 
+    void deleteCascading(bool preserveData){
+        this->deleteNode(preserveData);
+        if(this->next){
+            this->next->deleteCascading(preserveData);
+            delete this->next;
+            this->next = NULL;
+        }
+    }
+
+    void deleteNode(bool preserveData){
+
+        if(preserveData){
+            this->deleteWithoutData();
+        }else{
+            this->deleteWithData();
+        }
+    }
+
+    //deletes node and preserves data
     void deleteWithoutData(){
-
-        this->data == NULL;
-        this->next->deleteWithoutData();
-        delete this->next;
-        this->next == NULL;
-
+        this->data = NULL;
     }
 
 

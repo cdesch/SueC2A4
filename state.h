@@ -57,6 +57,9 @@ public:
         return this->people;
     }
 
+    void printInfo(){
+        cout << this->stateAbbreviation << endl;
+    }
 
 
     bool operator==(const State& object){

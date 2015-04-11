@@ -81,11 +81,11 @@ void testLinkedList(){
 }
 
 
-void testDatabase(){
+void testDatabase(string databaseLocation){
 
     Database* database = new Database();
 
-    database->readfile("/Users/cj/Desktop/dbfile1.txt");
+    database->readfile(databaseLocation);
     //cout << "States: " << database->getStates()->getSize() << endl;
 
     /*
@@ -130,12 +130,58 @@ void testDateComparisonOperators(){
 
 }
 
+void testListFindNodeAndDatafunctions(string databaseLocation){
 
-void testDatabaseDeletion(){
+    //TODO: implement
+    assert(false);
+}
+
+void testDeletionOfNodeInList(string databaseLocation){
+
+    Database* database = new Database();
+    database->readfile(databaseLocation);
+    assert(database->getStates()->getSize() <= 51); // States should always be under 51 (including DC)
+    assert(database->getPeople()->getSize() <= database->numberOfRecordsCounted);
+
+   //database->states->de
+
+}
+
+void testMovePersonFunctionDatabase(string databaseLocation){
+    Database* database = new Database();
+    database->readfile(databaseLocation);
+
+    int personIndex = 5;
+    int oldStateIndex = 5;
+    int newStateIndex = 6;
+
+    Person* person = database->getPeople()->findNodeAtIndex(personIndex)->getData();
+    ListNode<Person>* personNode = database->getPeople()->findNodeAtIndex(personIndex);
+    person->printInfoInline();
+
+    database->listStates();
+    assert(database->getPeople()->indexForNode(personNode) == personIndex);
+
+    State* oldState = database->getStates()->findNodeAtIndex(oldStateIndex)->getData();
+    oldState->printInfo();
+    State* newState = database->getStates()->findNodeAtIndex(newStateIndex)->getData();
+    newState->printInfo();
+
+    database->listPeopleInState(oldState->getState());
+    database->listPeopleInState(newState->getState());
+
+    database->movePerson(person->getSsn(), oldState->getState(), newState->getState());
+
+    database->listPeopleInState(oldState->getState());
+    database->listPeopleInState(newState->getState());
+}
+
+
+void testDatabaseDeletion(string databaseLocation){
 
     Database* database = new Database();
 
-    database->readfile("/Users/cj/Desktop/dbfile1.txt");
+    database->readfile(databaseLocation);
     //cout << "States: " << database->getStates()->getSize() << endl;
 
     /*
@@ -168,7 +214,7 @@ void testDatabaseDeletion(){
     delete database;
     database = new Database();
 
-    database->readfile("/Users/cj/Desktop/dbfile1.txt");
+    database->readfile(databaseLocation);
 
     assert(database->getStates()->getSize() <= 51); // States should always be under 51 (including DC)
     assert(database->getPeople()->getSize() <= database->numberOfRecordsCounted);
@@ -181,9 +227,7 @@ void testDatabaseDeletion(){
         cout << "    - " << currentPerson2->getData()->getLastName() << " "  << currentPerson2->getData()->getState()->getState() << endl;
         assert(headState2 == currentPerson2->getData()->getState());
         currentPerson2 = currentPerson2->getNext();
-
     }
-
 }
 
 
@@ -200,7 +244,6 @@ vector<string> parseCommandString(string commandString){
     if(arguments.size() == 0){
         arguments.push_back("ERROR");
     }
-
     return arguments;
 }
 
@@ -237,22 +280,10 @@ COMMAND commandDetector(string s){
         return ERROR;
     }
 
-
-
 }
 
 
-int main() {
-    cout << "Hello, World!" << endl;
-
-
-    testDateClass();
-    testDateComparisonOperators();
-    testPersonClass();
-    testStateClass();
-    testLinkedList();
-    testDatabase();
-    //testDatabaseDeletion();
+void commandLineInterpreter(){
 
     cout << "Enter a command:" << endl;
     int command = 100;
@@ -336,23 +367,26 @@ int main() {
                         cout << "Error: Illegal number of arguments. This command takes three arguement." << endl;
                         cout << "E.g. find Larry Brown" << endl;
                     }else{
-                        database->findPerson(arguments[1], arguments[2]);
+                        Person* person = database->findPerson(arguments[1], arguments[2]);
+                        if(person){
+                            cout << "  FOUND: " ;
+                            person->printInfoInline();
+                        }else{
+                            cout << " -- " << arguments[1] << " " <<  arguments[2] << " is not in the list of people" << endl;
+                        }
                     }
 
                     break;
 
                 case MOVE:
 
-                    cout << "move" << endl;
-
+                    cout << "MOVE" << endl;
+                    //FIXME: Insert in social security order
                     if(arguments.size() != 4){
                         cout << "Error: Illegal number of arguments. This command takes four arguement." << endl;
                         cout << "E.g. move 108690448 KS MD" << endl;
                     }else{
-
-                        //Person not found
-                        //State not found
-
+                        database->movePerson(arguments[1], arguments[2], arguments[3]);
                     }
 
                     break;
@@ -367,9 +401,9 @@ int main() {
 
                         //Check to make sure new state is unique
                         //State not found
+                        database->mergeStates(arguments[1], arguments[2], arguments[3]);
 
                     }
-
                     break;
 
                 case ERROR:
@@ -378,15 +412,27 @@ int main() {
                 default:
                     cout<< "Error: Illegal Syntax in command" << endl;
             }
-
         }
 
-
-
-
-
-
     }while(command != 0);
+}
+
+int main() {
+    cout << "Hello, World!" << endl;
+
+
+    string testDatabaseLocation = "/Users/cj/Desktop/dbfile1.txt";
+
+    testDateClass();
+    testDateComparisonOperators();
+    testPersonClass();
+    testStateClass();
+    testLinkedList();
+    testDatabase(testDatabaseLocation);
+    //testDatabaseDeletion();
+    //testMovePersonFunctionDatabase(testDatabaseLocation);
+    commandLineInterpreter();
+
 
     return 0;
 }

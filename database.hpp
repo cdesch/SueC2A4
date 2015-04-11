@@ -140,36 +140,25 @@ public:
 
     }
 
-    void findPerson(string firstName, string lastName){
-
-
-
+    Person* findPerson(string firstName, string lastName){
         Person* newPerson = new Person(firstName, lastName);
-        ListNode<Person>* newPersonNode = new ListNode<Person>(newPerson);
-
-        ListNode<Person>* personNode = this->people->find(newPersonNode);
-        if(personNode){
-            cout << "  -- FOUND: " ;
-            personNode->getData()->printInfoInline();
-        }else{
-            cout << " -- " << firstName << " " << lastName << " is not in the list of people" << endl;
-        }
-
+        return this->findPerson(newPerson);
     }
 
-    void findPerson(string ssn){
-
+    Person* findPerson(string ssn){
         Person* newPerson = new Person(ssn);
-        ListNode<Person>* newPersonNode = new ListNode<Person>(newPerson);
-
-        ListNode<Person>* personNode = this->people->find(newPersonNode);
-        if(personNode){
-            personNode->getData()->printInfoInline();
-        }else{
-            cout << " -- the person with the ssn " << ssn << " is not in the list of people" << endl;
-        }
+        return this->findPerson(newPerson);
     }
 
+    Person* findPerson(Person* person){
+        ListNode<Person>* newPersonNode = new ListNode<Person>(person);
+        ListNode<Person>* personNode = this->people->find(newPersonNode);
+        if(personNode){
+            return personNode->getData();
+        }else{
+            return NULL;
+        }
+    }
 
     void findOldest(string stateAbrev){
         State* newState = new State(stateAbrev);
@@ -205,8 +194,8 @@ public:
     void findYoungest(string stateAbrev){
         State* newState = new State(stateAbrev);
         ListNode<State>* newStateNode = new ListNode<State>(newState);
-
         ListNode<State>* stateNode = this->states->find(newStateNode);
+
         if(stateNode){
             State *headState = stateNode->getData();
             List<Person>* peopleInState = headState->getPeople();
@@ -230,6 +219,78 @@ public:
         }else{
             cout << " -- " << stateAbrev << " is not in the list of states" << endl;
         }
+    }
+
+    State* findState(string stateAbreviation){
+        State* newState = new State(stateAbreviation);
+        ListNode<State>* newStateNode = new ListNode<State>(newState);
+        ListNode<State>* stateNode = this->states->find(newStateNode);
+        if(stateNode){
+            return stateNode->getData();
+        }else{
+            return NULL;
+        }
+    }
+
+    //move ssn oldstate newstate
+    void movePerson(string ssn, string oldStateString, string newStateString){
+        Person* person = this->findPerson(ssn);
+        State* oldState = this->findState(oldStateString);
+        State* newState = this->findState(newStateString);
+        if(person == NULL){
+            cout << " -- " << ssn << " is not in the list of people" << endl;
+        }else if (oldState == NULL){
+            cout << " -- " << oldStateString << " is not in the list of states" << endl;
+        }else if (newState == NULL){
+            cout << " -- " << newStateString << " is not in the list of states" << endl;
+        }else if (*person->getState() != *oldState){
+            cout << " -- " << person->getFirstName() << " " << person->getLastName() << " does not live in " << oldState->getState() << endl;
+        }
+        else{
+
+            //setting the person's state to the new state
+            person->setState(newState);
+            //remove the person from the old states linked list but preserve the person data
+            oldState->getPeople()->findAndDeleteNode(person, true);
+            //add the person to the new states data
+            newState->getPeople()->addNode(person);
+            newState->getPeople()->sort();
+
+
+        }
+
+    }
+
+    //FIXME: and make me effecient
+    void movePerson(Person* person, string oldStateString, string newStateString){
+        this->movePerson(person->getSsn(),   oldStateString,  newStateString);
+    }
+
+    void mergeStates(string stateString1, string stateString2, string newStateString){
+
+        State* state1 = this->findState(stateString1);
+        State* state2 = this->findState(stateString2);
+        State* newState = this->findState(newStateString);
+        if(state1 == NULL){
+            cout << " -- " << stateString1 << " is not in the list of states" << endl;
+        }else if (state2 == NULL){
+            cout << " -- " << stateString2 << " is not in the list of states" << endl;
+        }else if (newState != NULL){
+            cout << " -- " << newStateString << " is already a state and cannot be created." << endl;
+        }else{
+
+
+            while(state1->getPeople()->getSize() > 0){
+                Person* person = state1->getPeople()->findNodeAtIndex(0)->getData();
+                this->movePerson(person, stateString1, stateString2);
+            }
+
+            state2->setState(newStateString);
+            this->states->findAndDeleteNode(state1);
+            state2->getPeople()->sort();
+
+        }
+
     }
 
 

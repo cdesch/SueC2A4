@@ -74,9 +74,9 @@ public:
 //Default Constructor
 Person::Person(){
     delete this->birthday;
-    this->birthday == NULL;
+    this->birthday = NULL;
     //delete this->state; //Dont need to delete. The Database Object will take care of that
-    this->state == NULL;
+    this->state = NULL;
 
 }
 
@@ -131,7 +131,6 @@ void Person::printInfo(){
     birthday->printInfo();
     printf("State: %s\n", this->getState()->getState().c_str());
 }
-
 
 void Person::printInfoInline(){
     printf("SSN: %s ", ssn.c_str());
