@@ -6,7 +6,10 @@
 #define SUEC2A4_TEST_DATABASE_HPP
 
 template <template <class Element> class DataStructure>
-class TestDatbase{
+class TestDatabase{
+    DataStructure<Element> * dataStructure;
+
+
 
 };
 

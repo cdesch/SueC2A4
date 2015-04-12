@@ -98,7 +98,7 @@ public:
                 cout << "ERROR: Tail is empty :: Do something to fix it" << endl;
             }
 
-            //Get the last SueLinkNode
+            //Get the last ListNode<Element>
             ListNode<Element>* lastNode = this->getTail();
             lastNode->setNext(node); //Set the newLastNode to next
             this->setTail(node); // New last node
@@ -330,14 +330,104 @@ public:
     }
 
 */
-    void sort(){
 
+
+    void MSBDivide(ListNode<Element>* first, ListNode<Element>* &second ){
+        ListNode<Element>* middle;
+        ListNode<Element>* current;
+
+        //Check for empty list
+        if(first == NULL){
+            second = NULL;
+        }else if (first->getNext() == NULL){
+            second = NULL;
+        }else{
+            middle = first;
+            current = first->getNext();
+            if(current != NULL){
+                current = current->getNext();
+            }
+            while(current != NULL){
+                middle = middle->getNext();
+                current = current->getNext();
+                if(current != NULL){
+                    current = current->getNext();
+                }
+            }
+            second = middle->getNext();
+            middle->setNext(NULL);
+        }
+    }
+
+    ListNode<Element>* MSBMergeList(ListNode<Element>* first, ListNode<Element>* second){
+        ListNode<Element>* lastSmall;
+        ListNode<Element>* newHead;
+
+        if(first == NULL){
+            return second;
+        }else if(second == NULL){
+            return first;
+        }else{
+            if(*first->getData() < *second->getData()){
+                newHead = first;
+                first = first->getNext();
+                lastSmall = newHead;
+            }else{
+                newHead = second;
+                second = second->getNext();
+                lastSmall = newHead;
+            }
+
+            while(first != NULL && second != NULL){
+                if(*first->getData() < *second->getData()){
+                    lastSmall->setNext(first);
+                    lastSmall = lastSmall->getNext();
+                    first = first->getNext();
+                }else{
+                    lastSmall->setNext(second);
+                    lastSmall = lastSmall->getNext();
+                    second = second->getNext();
+                }
+            }
+
+            if(first == NULL){
+                lastSmall->setNext(second);
+            }else{
+                lastSmall->setNext(first);
+            }
+
+            return newHead;
+
+        }
+
+    }
+
+    void MSBRecMergeSort(ListNode<Element>* & head){
+        ListNode<Element>* otherHead;
+        if(head != NULL){
+            if (head->getNext() != NULL){
+                MSBDivide(head,otherHead);
+                MSBRecMergeSort(head);
+                MSBRecMergeSort(otherHead);
+                head = MSBMergeList(head,otherHead);
+            }
+        }
 
 
     }
 
+    void sort(){
+        MSBRecMergeSort(this->head);
+        if(this->head == NULL){
+            this->tail = NULL;
+        }else{
+            this->tail = this->head;
+            while(this->tail->getNext() != NULL){
+                this->tail = this->tail->getNext();
+            }
+        }
 
-
+    }
 
 
 };

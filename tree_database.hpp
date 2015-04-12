@@ -1,9 +1,11 @@
 //
-// Created by cj on 4/4/15.
+// Created by cj on 4/12/15.
 //
 
-#ifndef SUEC2A4_DATABASE_HPP
-#define SUEC2A4_DATABASE_HPP
+#ifndef SUEC2A4_TREE_DATABASE_HPP
+#define SUEC2A4_TREE_DATABASE_HPP
+
+
 
 #include "date.hpp"
 #include "person.hpp"
@@ -15,7 +17,7 @@
 
 
 
-class Database{
+class TreeDatabase{
 
 protected:
     List<Person>* people;
@@ -24,13 +26,13 @@ protected:
 public:
 
     int numberOfRecordsCounted = 0;
-    Database(){
+    TreeDatabase(){
         this->people = new List<Person>();
         this->states = new List<State>();
         this->states->setEnforceUniqueItems(true);
     }
 
-    ~Database(){
+    ~TreeDatabase(){
 
         delete this->people;
         delete this->states;
@@ -289,4 +291,4 @@ public:
 
 };
 
-#endif //SUEC2A4_DATABASE_HPP
+#endif //SUEC2A4_TREE_DATABASE_HPP

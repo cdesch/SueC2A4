@@ -67,11 +67,71 @@ void testStateClass(){
     assert( *newyork == *newyork1);
     assert( *newyork != *newjersey);
 
-    assert("NY" < "NJ");
-    assert( *newyork < *newjersey);
-    assert( *newjersey > *newyork);
-    assert(!(*newjersey < *newyork));
-    assert(!(*newyork > *newjersey));
+    string NY = "NY";
+    string NJ = "NJ";
+    assert(NY > NJ);
+    assert( *newyork > *newjersey);
+    assert( *newjersey < *newyork);
+    assert(!(*newjersey > *newyork));
+    assert(!(*newyork < *newjersey));
+}
+
+
+void testLinkedListSort(){
+    Date* date = new Date(2015,4,2);
+    State* state = new State("NY");
+    State* state1 = new State("NJ");
+    State* state2 = new State("AL");
+    State* state3 = new State("HI");
+    State* state4 = new State("DC");
+
+    Person* person = new Person("00100000", "MyFirstName", "MyLastName", date, state);
+    Person* person1 = new Person("00030001", "MyFirstName", "MyLastName", date, state);
+    Person* person2 = new Person("010000002", "MyFirstName", "MyLastName", date, state);
+    Person* person3 = new Person("00000103", "MyFirstName", "MyLastName", date, state);
+    Person* person4 = new Person("00100004", "MyFirstName", "MyLastName", date, state);
+
+    List<Person> *personList = new List<Person>();
+    personList->addNode(person);
+    personList->addNode(person1);
+    personList->addNode(person2);
+    personList->addNode(person3);
+    personList->addNode(person4);
+
+    personList->sort();
+
+
+    ListNode<Person>* currentHead = personList->getHead();
+
+    while(currentHead){
+        //cout << " " << currentHead->getData()->getSsn() << endl;
+        if(currentHead->getNext()){
+            assert(*currentHead->getData() < *currentHead->getNext()->getData());
+        }
+        currentHead = currentHead->getNext();
+    }
+
+
+    List<State> *stateList = new List<State>();
+    stateList->addNode(state);
+    stateList->addNode(state1);
+    stateList->addNode(state2);
+    stateList->addNode(state3);
+    stateList->addNode(state4);
+
+
+    stateList->sort();
+    ListNode<State>* currentHeadState = stateList->getHead();
+    while(currentHeadState){
+        //cout << " " << currentHeadState->getData()->getState() << endl;
+        if(currentHeadState->getNext()){
+            assert(*currentHeadState->getData() < *currentHeadState->getNext()->getData());
+        }
+        currentHeadState = currentHeadState->getNext();
+    }
+
+
+
 }
 
 void testLinkedList(){
@@ -132,10 +192,10 @@ void testDatabase(string databaseLocation){
 
     State *headState = database->getStates()->getHead()->getData();
     List<Person>* peopleInState = headState->getPeople();
-    cout << "State: " << headState->getState() << endl;
+    //cout << "State: " << headState->getState() << endl;
     ListNode<Person>* currentPerson = peopleInState->getHead();
     while(currentPerson){
-        cout << "    - " << currentPerson->getData()->getLastName() << " "  << currentPerson->getData()->getState()->getState() << endl;
+        //cout << "    - " << currentPerson->getData()->getLastName() << " "  << currentPerson->getData()->getState()->getState() << endl;
         assert(headState == currentPerson->getData()->getState());
         currentPerson = currentPerson->getNext();
 
@@ -446,7 +506,7 @@ int main() {
 
 
     string testDatabaseLocation = "/Users/cj/Desktop/dbfile1.txt";
-
+    testLinkedListSort();
     testDateClass();
     testDateComparisonOperators();
     testPersonClass();
