@@ -80,6 +80,32 @@ public:
         return node;
     }
 
+    TreeNode* find(TreeNode* node, Element* data){
+        if( node == NULL ) {
+            return NULL;
+        }
+        if( *node->getData() == *data ) {
+            return data;
+        }
+        if( *node->getData() > *data ) {
+            return find(node->getLeft(), data);
+        }else {
+            return find(node->getRight(), data);
+        }
+    }
+
+    void insert( TreeNode* node, Element* data ){
+        if( node == NULL ) {
+            node = new TreeNode( data );
+            return;
+        }
+        if( *node->getData() > *data){
+            insert( node->getLeft(), data);
+        }else{
+            insert( node->getRight(), data);
+        }
+    }
+
     //Setters and Getters
     void setRoot(TreeNode<Element>* node){
         this->root = node;

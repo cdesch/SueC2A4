@@ -68,6 +68,23 @@ public:
             return true;
         }
     }
+
+    bool operator>(const Person& object){
+        if(this->getSsn() > object.getSsn()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    bool operator<(const Person& object){
+        if(this->getSsn() < object.getSsn()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 };
 //Default Constructor
 Person::Person(){

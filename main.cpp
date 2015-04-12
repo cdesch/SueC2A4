@@ -45,6 +45,17 @@ void testPersonClass(){
     assert(person->getFirstName() == "MyFirstName" );
     assert(person->getLastName() == "MyLastName" );
 
+    Person* person1 = new Person("00000001", "MyFirstName", "MyLastName", date, state);
+    Person* person2 = new Person("00000002", "MyFirstName", "MyLastName", date, state);
+    Person* person3 = new Person("00000003", "MyFirstName", "MyLastName", date, state);
+    Person* person4 = new Person("00000004", "MyFirstName", "MyLastName", date, state);
+
+    assert(*person1 < *person2);
+    assert(*person2 > *person1);
+    assert(!(*person2 < *person1));
+    assert(*person4 > *person2);
+    assert(!(*person1 > *person4));
+
 }
 
 void testStateClass(){
@@ -56,6 +67,11 @@ void testStateClass(){
     assert( *newyork == *newyork1);
     assert( *newyork != *newjersey);
 
+    assert("NY" < "NJ");
+    assert( *newyork < *newjersey);
+    assert( *newjersey > *newyork);
+    assert(!(*newjersey < *newyork));
+    assert(!(*newyork > *newjersey));
 }
 
 void testLinkedList(){
@@ -353,10 +369,9 @@ void commandLineInterpreter(){
                         cout << "Error: Illegal number of arguments. This command takes two arguement." << endl;
                         cout << "E.g. oldest NY" << endl;
                     }else{
-
                         database->findOldest(arguments[1]);
-
                     }
+
                     break;
                 case YOUNGEST:
                     cout << "YOUNGEST" << endl;
@@ -408,11 +423,7 @@ void commandLineInterpreter(){
                         cout << "Error: Illegal number of arguments. This command takes four arguement." << endl;
                         cout << "E.g. merge NC SC CR" << endl;
                     }else{
-
-                        //Check to make sure new state is unique
-                        //State not found
                         database->mergeStates(arguments[1], arguments[2], arguments[3]);
-
                     }
                     break;
 
@@ -426,6 +437,9 @@ void commandLineInterpreter(){
 
     }while(command != 0);
 }
+
+
+
 
 int main() {
     cout << "Hello, World!" << endl;

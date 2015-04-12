@@ -73,10 +73,7 @@ public:
                 if (getline(stringStream, token, ' ')){
                     stateString = token;
                 }
-
                 //cout << "Birthdate: " << dateString << " ssn: " << ssnString << " firstname: " << firstName << " lastname: " << lastName << " state: " << stateString << endl;
-
-
                 Date* birthdate = new Date(dateString); //Creates a new date object
 
                 State* state = new State(stateString); //creating a new state
@@ -87,7 +84,6 @@ public:
                 this->people->addNode(person);
 
                 //person->printInfo();
-
                 this->numberOfRecordsCounted ++;
 
             }

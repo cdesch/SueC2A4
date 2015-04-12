@@ -74,6 +74,22 @@ public:
         }
     }
 
+    bool operator>(const State& object){
+        if(this->getState().compare(object.getState()) < 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    bool operator<(const State& object){
+        if(this->getState().compare(object.getState()) > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 };
 
 #endif //SUEC2A4_STATE_HPP
