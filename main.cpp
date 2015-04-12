@@ -382,7 +382,7 @@ void commandLineInterpreter(){
         vector<string> arguments = parseCommandString(commandString);
         COMMAND comm = commandDetector(arguments[0]);
 
-        if(database == NULL && comm != READ){
+        if(database == NULL && (comm != READ || comm != EXIT_PROGRAM)){
             cout << "Error: There must be a data present prior to running commands against the database." << endl;
         }else{
             switch (comm){
@@ -486,9 +486,14 @@ void commandLineInterpreter(){
                         database->mergeStates(arguments[1], arguments[2], arguments[3]);
                     }
                     break;
+                case EXIT_PROGRAM:
+                    command = 0;
+                    cout << "EXITING" << endl;
+                    break;
 
                 case ERROR:
                     cout<< "Error: Illegal Syntax in command" << endl;
+
 
                 default:
                     cout<< "Error: Illegal Syntax in command" << endl;
@@ -496,6 +501,7 @@ void commandLineInterpreter(){
         }
 
     }while(command != 0);
+    cout << "Final EXIT" << endl;
 }
 
 
@@ -516,7 +522,6 @@ int main() {
     //testDatabaseDeletion();
     //testMovePersonFunctionDatabase(testDatabaseLocation);
     commandLineInterpreter();
-
 
     return 0;
 }
